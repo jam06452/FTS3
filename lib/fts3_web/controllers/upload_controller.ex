@@ -393,9 +393,9 @@ defmodule Fts3Web.UploadController do
 
   defp build_public_url(filename) do
     config = Application.get_env(:fts3, :supabase)
-    url = config[:url]
+    public_url = config[:public_url]
     bucket = config[:bucket]
-    "#{url}/storage/v1/object/public/#{bucket}/#{filename}"
+    "#{public_url}/storage/v1/object/public/#{bucket}/#{filename}"
   end
 
   defp shorten_url(long_url) do
