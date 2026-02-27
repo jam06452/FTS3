@@ -20,6 +20,10 @@ if System.get_env("PHX_SERVER") do
   config :fts3, Fts3Web.Endpoint, server: true
 end
 
+config :exapi, :supabase,
+  url: System.get_env("SUPABASE_ADDRESS"),
+  key: System.get_env("SUPABASE_KEY")
+
 config :fts3, Fts3Web.Endpoint, http: [port: String.to_integer(System.get_env("PORT", "4000"))]
 
 if config_env() == :prod do
