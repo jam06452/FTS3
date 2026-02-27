@@ -340,7 +340,8 @@ defmodule Fts3Web.UploadController do
              headers: [
                {"Authorization", "Bearer #{api_key}"},
                {"Content-Type", content_type}
-             ]
+             ],
+             timeout: 600_000
            ) do
         {:ok, response} when response.status >= 200 and response.status < 300 ->
           Logger.info("Successfully uploaded to Supabase: #{filename} (HTTP #{response.status})")
