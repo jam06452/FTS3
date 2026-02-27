@@ -14,10 +14,21 @@ defmodule Fts3Web.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :uploads do
+    plug :accepts, ["multipart", "json"]
+    plug :fetch_session
+  end
+
   scope "/", Fts3Web do
     pipe_through :browser
 
-    get "/", PageController, :home
+    get "/", UploadController, :uploader
+  end
+
+  scope "/", Fts3Web do
+    pipe_through :uploads
+
+    post "/upload", UploadController, :create
   end
 
   # Other scopes may use custom stacks.
