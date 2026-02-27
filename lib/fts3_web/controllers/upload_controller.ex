@@ -15,8 +15,6 @@ defmodule Fts3Web.UploadController do
   @chunk_dir Path.join(System.tmp_dir!(), "fts3_uploads")
   # 10MB per chunk
   @max_chunk_size 10 * 1024 * 1024
-  # 5GB total
-  @max_file_size 5 * 1024 * 1024 * 1024
 
   def create(conn, params) do
     try do
@@ -205,10 +203,6 @@ defmodule Fts3Web.UploadController do
           case total_size do
             {:error, reason} ->
               {:error, reason}
-
-            size when size > @max_file_size ->
-              Logger.error("Assembled file exceeds maximum size: #{size} > #{@max_file_size}")
-              {:error, "File exceeds maximum size of #{@max_file_size} bytes"}
 
             size ->
               Logger.info(
