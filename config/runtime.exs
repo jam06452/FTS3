@@ -22,7 +22,7 @@ end
 
 config :fts3, :supabase,
   url: System.get_env("SUPABASE_ADDRESS"),
-  public_url: System.get_env("SUPABASE_PUBLIC_URL", "https://db.jam06452"),
+  public_url: System.get_env("SUPABASE_PUBLIC_URL", "https://db.jam06452.uk"),
   key: System.get_env("SUPABASE_KEY"),
   bucket: System.get_env("SUPABASE_BUCKET")
 
