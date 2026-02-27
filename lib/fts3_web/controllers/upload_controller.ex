@@ -318,8 +318,11 @@ defmodule Fts3Web.UploadController do
     api_key = config[:key]
     bucket_name = config[:bucket]
 
+    # URL-encode the filename to handle spaces and special characters
+    encoded_filename = URI.encode(filename, &URI.char_unreserved?/1)
+
     # Construct the upload URL
-    upload_url = "#{base_url}/storage/v1/object/#{bucket_name}/#{filename}"
+    upload_url = "#{base_url}/storage/v1/object/#{bucket_name}/#{encoded_filename}"
 
     # Detect content type based on file extension
     content_type = get_content_type(filename)
