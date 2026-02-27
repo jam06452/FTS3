@@ -251,12 +251,15 @@ defmodule Fts3Web.UploadController do
     now = DateTime.now!("Etc/UTC")
     timestamp = Calendar.strftime(now, "%Y%m%d_%H%M%S")
 
-    # Split filename into name and extension by the last dot
-    case String.rsplit(filename, ".", parts: 2) do
-      [name, ext] ->
-        "#{name}_#{timestamp}.#{ext}"
+    # Use Path functions to properly handle the extension
+    ext = Path.extname(filename)
+    name = Path.rootname(filename)
 
-      [name] ->
+    cond do
+      ext != "" ->
+        "#{name}_#{timestamp}#{ext}"
+
+      true ->
         "#{name}_#{timestamp}"
     end
   end
