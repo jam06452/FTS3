@@ -20,9 +20,10 @@ if System.get_env("PHX_SERVER") do
   config :fts3, Fts3Web.Endpoint, server: true
 end
 
-config :exapi, :supabase,
+config :fts3, :supabase,
   url: System.get_env("SUPABASE_ADDRESS"),
-  key: System.get_env("SUPABASE_KEY")
+  key: System.get_env("SUPABASE_KEY"),
+  bucket: System.get_env("SUPABASE_BUCKET")
 
 config :fts3, Fts3Web.Endpoint, http: [port: String.to_integer(System.get_env("PORT", "4000"))]
 
