@@ -36,3 +36,11 @@ npm-debug.log
 /assets/node_modules/
 
 .env
+
+*.bin
+# Tooling
+.vscode/
+.elixir_ls/
+
+# Temporary test scripts
+test_*.exs
