@@ -1,5 +1,4 @@
 defmodule S3 do
-
   def client(base_url, region, access_key_id, secret_access_key) do
     Req.new(
       base_url: base_url,
@@ -8,8 +7,7 @@ defmodule S3 do
         region: region,
         access_key_id: access_key_id,
         secret_access_key: secret_access_key
-      ],
-      decode_body: true
+      ]
     )
   end
 

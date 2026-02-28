@@ -11,12 +11,12 @@ defmodule Fts3.DB do
   end
 
   def test2 do
-    {:ok, response} = S3.get_object(client(), "fts3", "walter.txt")
+    {:ok, response} = S3.get_object(client(), "fts3", "6hodgw-3058468067.png")
     response.body
   end
 
-  def test3 do
-    {:ok, response} = S3.put_object(client(), "fts3", "test2.txt", "Hello, World!")
-    response
+  def upload(file_name, file_content) do
+    {:ok, response} = S3.put_object(client(), "fts3", file_name, file_content)
+    response.body
   end
 end
