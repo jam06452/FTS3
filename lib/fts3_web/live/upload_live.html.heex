@@ -1,0 +1,117 @@
+<div
+  id="upload-container"
+  phx-hook="UploadHandler"
+  data-upload-id={@upload_id}
+  data-chunk-size={@chunk_size}
+>
+  <h1>File Upload to S3</h1>
+  <p>
+    Upload files in 80MB chunks with automatic reassembly
+  </p>
+
+  <div :if={@error}>
+    <span>{@error}</span>
+  </div>
+
+  <div :if={@status}>
+    <span>{@status}</span>
+  </div>
+
+  <div :if={@url}>
+    <p>Result:</p>
+    <p>{@status}</p>
+
+    <div>
+      <label>File Access URL</label>
+      <div>
+        <input
+          id="uploaded-url"
+          type="text"
+          readonly
+          value={@url}
+        />
+        <button type="button" class="copy-url" aria-label="Copy URL">
+          Copy
+        </button>
+        <button type="button" class="open-url">Open</button>
+      </div>
+
+    </div>
+  </div>
+
+  <form phx-change="file_selected">
+    <label>
+      <div>
+        <span>Select File</span>
+        <span :if={@filename}>
+          {format_file_size(@file_size)}
+        </span>
+      </div>
+      <input
+        type="file"
+        id="file-input"
+        name="file"
+        disabled={@uploading}
+      />
+    </label>
+  </form>
+
+  <div :if={@uploading}>
+    <div>
+      <label>
+        <span>Uploading: {String.slice(@filename, 0..30)}</span>
+        <span>{@progress}%</span>
+      </label>
+      <progress
+        value={@progress}
+        max="100"
+      >
+      </progress>
+      <label>
+        <span>
+          {@uploaded_chunks} / {@total_chunks} chunks
+        </span>
+        <span>
+          {format_file_size(trunc(@file_size * (@progress / 100)))}
+        </span>
+      </label>
+    </div>
+
+    <button type="button" disabled>
+      Uploading...
+    </button>
+  </div>
+
+  <button
+    :if={!@uploading && @filename}
+    type="button"
+    phx-click="start_upload"
+  >
+    Upload to S3
+  </button>
+
+  <button
+    :if={!@uploading && !@filename}
+    type="button"
+    disabled
+  >
+    Select a file to start
+  </button>
+
+  <div>
+    <h2>Upload Information</h2>
+    <div>
+      <p>
+        <span>Chunk Size:</span>
+        <span>{format_file_size(@chunk_size)}</span>
+      </p>
+      <p :if={@filename}>
+        <span>Chunks Required:</span>
+        <span>{@total_chunks}</span>
+      </p>
+      <p>
+        Files are uploaded in chunks of {format_file_size(@chunk_size)}, then reassembled on the server and uploaded to your S3 bucket.
+      </p>
+    </div>
+  </div>
+</div>

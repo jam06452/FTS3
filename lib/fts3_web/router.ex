@@ -17,7 +17,16 @@ defmodule Fts3Web.Router do
   scope "/", Fts3Web do
     pipe_through :browser
 
-    get "/", PageController, :home
+    live_session :bare, root_layout: {Fts3Web.Layouts, :bare} do
+      live "/", UploadLive, :index
+    end
+  end
+
+  scope "/api", Fts3Web.API do
+    pipe_through :browser
+
+    post "/upload/chunk", UploadController, :upload_chunk
+    post "/upload/finalize", UploadController, :finalize_upload
   end
 
   # Other scopes may use custom stacks.

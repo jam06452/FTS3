@@ -103,3 +103,20 @@
 [data-phx-session], [data-phx-teleported-src] { display: contents }
 
 /* This file is for your main application CSS */
+
+/* Upload result area styles */
+.upload-result {
+  border-radius: 0.5rem;
+}
+
+.upload-result .copy-url {
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.upload-result .open-url {
+  min-width: 100px;
+}
