@@ -20,11 +20,12 @@ if System.get_env("PHX_SERVER") do
   config :fts3, Fts3Web.Endpoint, server: true
 end
 
-config :fts3, :S3,
+config :fts3, :s3,
   base_url: System.get_env("S3_BASE_URL"),
   region: System.get_env("S3_REGION"),
   access_key_id: System.get_env("S3_ACCESS_KEY_ID"),
-  secret_access_key: System.get_env("S3_SECRET_ACCESS_KEY")
+  secret_access_key: System.get_env("S3_SECRET_ACCESS_KEY"),
+  bucket: System.get_env("S3_BUCKET")
 
 config :fts3, Fts3Web.Endpoint, http: [port: String.to_integer(System.get_env("PORT", "4000"))]
 

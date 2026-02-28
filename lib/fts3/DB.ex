@@ -1,8 +1,13 @@
 defmodule Fts3.DB do
-
   defp client do
-  config = Application.get_env(:fts3, :S3)
-  S3.client(config[:base_url], config[:region], config[:access_key_id], config[:secret_access_key])
+    config = Application.get_env(:fts3, :s3)
+
+    S3.client(
+      config[:S3_BASE_URL],
+      config[:S3_REGION],
+      config[:S3_ACCESS_KEY_ID],
+      config[:S3_SECRET_ACCESS_KEY]
+    )
   end
 
   def test do
