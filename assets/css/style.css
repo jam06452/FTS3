@@ -1,0 +1,258 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Google Sans", sans-serif;
+}
+
+.main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 60px);
+}
+
+a{
+    color: black;
+}
+
+.centerCard {
+    box-shadow: 0px 0px 25px 1px rgba(0, 0, 0, 0.349);
+    border-radius: 40px;
+    height: 60vh;
+    width: 50%;
+    padding: 40px;
+}
+
+.titleHeader {
+    margin-bottom: 15px;
+}
+
+.fileSelector {
+    width: 50%;
+    height: 100%;
+    border-radius: 20px;
+    border: dashed rgb(139, 156, 255) 2px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.cardContent {
+    display: flex;
+    height: 90%;
+    gap: 20px;
+}
+
+.fileinput {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+
+    z-index: 10;
+}
+
+.rightItems {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+
+#status {
+    width: 100%;
+    background: rgba(139, 156, 255, 0.08);
+    border: 1px solid rgba(139, 156, 255, 0.35);
+    border-radius: 16px;
+    padding: 16px 18px;
+}
+
+#status {
+    margin-bottom: 16px;
+}
+
+#result {
+    width: 100%;
+    background: rgba(139, 156, 255, 0.08);
+    border: 1px solid rgba(139, 156, 255, 0.35);
+    border-radius: 16px;
+    padding: 16px 18px;
+}
+
+.panelTitle {
+    font-weight: 600;
+}
+
+.panelSubtitle {
+    font-weight: 600;
+}
+
+#statusText {
+    color: #2c2f46;
+}
+
+#progressText {
+    color: #2c2f46;
+}
+
+#uploadSpeed {
+    color: #2c2f46;
+}
+
+#resultText {
+    color: #2c2f46;
+}
+
+.progressBar {
+    width: 100%;
+    height: 10px;
+    background: rgba(139, 156, 255, 0.18);
+    border-radius: 999px;
+    overflow: hidden;
+    margin: 10px 0 8px;
+}
+
+#progressFill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #6b7cff, #9fb1ff);
+    border-radius: 999px;
+    transition: width 200ms ease;
+}
+
+#urlContainer {
+    margin-top: 10px;
+}
+
+#publicUrl {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 10px;
+    border: 1px solid rgba(139, 156, 255, 0.5);
+    background: #fff;
+    margin: 6px 0 10px;
+}
+
+#copyUrlBtn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 14px;
+    min-width: 120px;
+    border-radius: 12px;
+    border: 1px solid rgba(139, 156, 255, 0.7);
+    background: #8b9cff;
+    color: #0f1430;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform 120ms ease, box-shadow 120ms ease, background 120ms ease;
+}
+
+#downloadBtn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 14px;
+    min-width: 120px;
+    border-radius: 12px;
+    border: 1px solid rgba(139, 156, 255, 0.7);
+    background: #8b9cff;
+    color: #0f1430;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform 120ms ease, box-shadow 120ms ease, background 120ms ease;
+}
+
+#copyUrlBtn:active {
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+#downloadBtn:active {
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+.footer {
+    text-align: center;
+    padding: 12px 0;
+    color: #2c2f46;
+    font-size: 14px;
+}
+
+@media (max-width: 1560px) {
+    .main {
+        padding: 24px 0;
+    }
+
+    .centerCard {
+        width: 80%;
+    }
+}
+
+@media (max-width: 1000px) {
+    .centerCard {
+        width: 94%;
+        height: auto;
+        padding: 26px;
+    }
+
+    .cardContent {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .fileSelector {
+        width: 100%;
+        height: 220px;
+    }
+
+    .rightItems {
+        width: 100%;
+        gap: 16px;
+    }
+}
+
+@media (max-width: 600px) {
+    .centerCard {
+        width: 94%;
+        padding: 22px;
+        border-radius: 28px;
+    }
+
+    .fileSelector {
+        height: 200px;
+        border-radius: 16px;
+    }
+
+    #copyUrlBtn {
+        width: 100%;
+        margin-bottom: 8px;
+    }
+
+    #downloadBtn {
+        width: 100%;
+        margin-left: 0;
+    }
+}
+
+@media (max-width: 600px) {
+    .titleHeader {
+        font-size: 20px;
+    }
+
+    .selectFile {
+        font-size: 16px;
+    }
+}
