@@ -82,8 +82,8 @@ defmodule Fts3Web.API.UploadController do
     case Upload.complete_s3_upload(s3_key, s3_upload_id, parts) do
       {:ok, _s3_key} ->
         url =
-          "https://garage.jam06452.uk/api/browse/fts3/uploads/" <>
-            URI.encode(filename) <> "?view=1"
+          "https://seaweed.jam06452.uk/buckets/fts3/uploads/" <>
+            URI.encode(filename)
 
         json(conn, %{
           success: true,
