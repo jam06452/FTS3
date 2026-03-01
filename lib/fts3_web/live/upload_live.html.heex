@@ -4,83 +4,88 @@
   data-upload-id={@upload_id}
   data-chunk-size={@chunk_size}
 >
-  <h1>File Upload to S3</h1>
-  <p>
-    Upload files in 80MB chunks with automatic reassembly
-  </p>
+  <div style="text-align: center;">
+    <h1>S3 Cloud Storage</h1>
+    <p>Upload files securely with automatic chunking and reassembly</p>
+  </div>
 
-  <div :if={@error}>
+  <div :if={@error} role="alert">
+    <.icon name="hero-exclamation-triangle" class="size-5" />
     <span>{@error}</span>
   </div>
 
-  <div :if={@status}>
+  <div :if={@status && !@url} role="status">
+    <.icon name="hero-information-circle" class="size-5" />
     <span>{@status}</span>
   </div>
 
-  <div :if={@url}>
-    <p>Result:</p>
+  <div :if={@url} class="upload-result card">
+    <h2>Upload Complete</h2>
     <p>{@status}</p>
 
     <div>
       <label>File Access URL</label>
-      <div>
+      <div class="flex-gap url-actions">
         <input
           id="uploaded-url"
           type="text"
           readonly
           value={@url}
+          class="flex-1"
         />
         <button type="button" class="copy-url" aria-label="Copy URL">
-          Copy
+          <.icon name="hero-clipboard" class="size-4" />
         </button>
-        <button type="button" class="open-url">Open</button>
+        <button type="button" class="open-url">
+          <.icon name="hero-arrow-top-right-on-square" class="size-4" />
+          Open
+        </button>
       </div>
-
     </div>
   </div>
 
   <form phx-change="file_selected">
     <label>
-      <div>
-        <span>Select File</span>
-        <span :if={@filename}>
-          {format_file_size(@file_size)}
-        </span>
-      </div>
+      <span style="display: block; text-align: center; margin-bottom: 1rem;">Select File</span>
       <input
         type="file"
         id="file-input"
         name="file"
         disabled={@uploading}
       />
+      <div style="text-align: center; display: block; margin-top: 1rem; width: 100%; margin-left: auto; margin-right: auto;">
+        <span :if={@filename} style="display: block;">
+          {format_file_size(@file_size)}
+        </span>
+        <span :if={!@filename} style="display: block;">
+          0 B
+        </span>
+      </div>
     </label>
   </form>
 
-  <div :if={@uploading}>
+  <div :if={@uploading} class="card">
     <div>
       <label>
         <span>Uploading: {String.slice(@filename, 0..30)}</span>
         <span>{@progress}%</span>
       </label>
-      <progress
-        value={@progress}
-        max="100"
-      >
-      </progress>
-      <label>
+      <progress value={@progress} max="100"></progress>
+      <div class="upload-stats">
         <span>
           {@uploaded_chunks} / {@total_chunks} chunks
         </span>
         <span>
           {format_file_size(trunc(@file_size * (@progress / 100)))}
         </span>
-        <span :if={@upload_speed_mbps}>
+        <span :if={@upload_speed_mbps} class="speed">
           {@upload_speed_mbps} Mbps
         </span>
-      </label>
+      </div>
     </div>
 
-    <button type="button" disabled>
+    <button type="button" disabled class="uploading-btn">
+      <.icon name="hero-arrow-path" class="size-5" />
       Uploading...
     </button>
   </div>
@@ -90,31 +95,30 @@
     type="button"
     phx-click="start_upload"
   >
+    <.icon name="hero-cloud-arrow-up" class="size-5" />
     Upload to S3
   </button>
 
-  <button
-    :if={!@uploading && !@filename}
-    type="button"
-    disabled
-  >
+  <button :if={!@uploading && !@filename} type="button" disabled>
+    <.icon name="hero-document-arrow-up" class="size-5" />
     Select a file to start
   </button>
 
-  <div>
-    <h2>Upload Information</h2>
-    <div>
-      <p>
-        <span>Chunk Size:</span>
-        <span>{format_file_size(@chunk_size)}</span>
-      </p>
-      <p :if={@filename}>
-        <span>Chunks Required:</span>
-        <span>{@total_chunks}</span>
-      </p>
-      <p>
-        Files are uploaded in chunks of {format_file_size(@chunk_size)}, then reassembled on the server and uploaded to your S3 bucket.
-      </p>
-    </div>
+  <div class="upload-info">
+    <h2 style="text-align: center;">Upload Information</h2>
+    <p>
+      <span>Chunk Size:</span>
+      <span>{format_file_size(@chunk_size)}</span>
+    </p>
+    <p :if={@filename}>
+      <span>Chunks Required:</span>
+      <span>{@total_chunks}</span>
+    </p>
+    <p class="info-description" style="text-align: center;">
+      Files are uploaded in chunks of {format_file_size(@chunk_size)}, then reassembled on the server and uploaded to your S3 bucket.
+    </p>
+    <p class="info-description" style="text-align: center;">
+      <span>UI made by <a href="https://github.com/SeradedStripes" target="_blank" rel="noopener">SeradedStripes</a></span>
+    </p>
   </div>
 </div>
