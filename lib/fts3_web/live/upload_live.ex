@@ -22,6 +22,8 @@ defmodule Fts3Web.UploadLive do
       |> assign(:status, nil)
       |> assign(:error, nil)
       |> assign(:chunk_size, Upload.get_chunk_size())
+      |> assign(:upload_start_time, nil)
+      |> assign(:upload_speed_mbps, nil)
 
     {:ok, socket, layout: false}
   end
@@ -69,10 +71,19 @@ defmodule Fts3Web.UploadLive do
     uploaded = uploaded_int + 1
     progress = trunc(uploaded / total_int * 100)
 
+    start_time = socket.assigns[:upload_start_time] || System.system_time(:millisecond)
+    elapsed_ms = System.system_time(:millisecond) - start_time
+    elapsed_s = max(elapsed_ms / 1000.0, 0.1)
+
+    bytes_uploaded = min(uploaded * socket.assigns.chunk_size, socket.assigns.file_size)
+    megabits = bytes_uploaded * 8 / 1_000_000
+    speed_mbps = Float.round(megabits / elapsed_s, 2)
+
     socket =
       socket
       |> assign(:uploaded_chunks, uploaded)
       |> assign(:progress, progress)
+      |> assign(:upload_speed_mbps, speed_mbps)
 
     new_socket =
       if uploaded == total_int do
@@ -98,6 +109,8 @@ defmodule Fts3Web.UploadLive do
       |> assign(:total_chunks, 0)
       |> assign(:uploaded_chunks, 0)
       |> assign(:progress, 0)
+      |> assign(:upload_start_time, nil)
+      |> assign(:upload_speed_mbps, nil)
 
     socket =
       if url do
@@ -128,7 +141,12 @@ defmodule Fts3Web.UploadLive do
 
   @impl true
   def handle_event("upload_started", _, socket) do
-    {:noreply, socket |> assign(:uploading, true) |> assign(:url, nil)}
+    {:noreply,
+     socket
+     |> assign(:uploading, true)
+     |> assign(:url, nil)
+     |> assign(:upload_start_time, System.system_time(:millisecond))
+     |> assign(:upload_speed_mbps, nil)}
   end
 
   @impl true

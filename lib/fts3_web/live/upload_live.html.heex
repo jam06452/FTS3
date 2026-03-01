@@ -74,6 +74,9 @@
         <span>
           {format_file_size(trunc(@file_size * (@progress / 100)))}
         </span>
+        <span :if={@upload_speed_mbps}>
+          {@upload_speed_mbps} Mbps
+        </span>
       </label>
     </div>
 

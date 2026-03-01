@@ -4,6 +4,7 @@ defmodule S3 do
   def client(base_url, region, access_key_id, secret_access_key) do
     Req.new(
       base_url: base_url,
+      decode_body: false,
       aws_sigv4: [
         service: :s3,
         region: region,
