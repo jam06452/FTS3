@@ -19,7 +19,7 @@ defmodule S3 do
   end
 
   def get_object(client, bucket, key) do
-    client |> Req.get(url: "/#{bucket}/#{key}")
+    client |> Req.get(url: "/#{bucket}/#{URI.encode(key)}")
   end
 
   def put_object(client, bucket, key, body, opts \\ []) do
@@ -32,7 +32,7 @@ defmodule S3 do
       resp =
         client
         |> Req.put!(
-          url: "/#{bucket}/#{key}",
+          url: "/#{bucket}/#{URI.encode(key)}",
           body: body,
           receive_timeout: receive_timeout,
           headers: headers
@@ -51,7 +51,7 @@ defmodule S3 do
   end
 
   def create_multipart_upload(client, bucket, key) do
-    resp = client |> Req.post!(url: "/#{bucket}/#{key}?uploads")
+    resp = client |> Req.post!(url: "/#{bucket}/#{URI.encode(key)}?uploads")
 
     if resp.status in 200..299 do
       upload_id = Regex.run(~r/<UploadId>(.*?)<\/UploadId>/, resp.body) |> Enum.at(1)
@@ -70,7 +70,7 @@ defmodule S3 do
       resp =
         client
         |> Req.put!(
-          url: "/#{bucket}/#{key}?partNumber=#{part_number}&uploadId=#{upload_id}",
+          url: "/#{bucket}/#{URI.encode(key)}?partNumber=#{part_number}&uploadId=#{upload_id}",
           body: stream,
           headers: [{"content-length", to_string(size)}],
           receive_timeout: :infinity
@@ -99,7 +99,7 @@ defmodule S3 do
     resp =
       client
       |> Req.post!(
-        url: "/#{bucket}/#{key}?uploadId=#{upload_id}",
+        url: "/#{bucket}/#{URI.encode(key)}?uploadId=#{upload_id}",
         body: xml,
         headers: [{"content-type", "application/xml"}]
       )
